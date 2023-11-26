@@ -1,0 +1,19 @@
+variables:
+  DOCKER_REGISTRY: 791674964012.dkr.ecr.ap-southeast-1.amazonaws.com/ait-collab-api
+
+build_api:
+  stage: build
+  image:
+    name: gcr.io/kaniko-project/executor:v1.14.0-debug
+    entrypoint: [""]
+  script:
+    -  mkdir -p /kaniko/.docker
+    -  echo "{\"credsStore\":\"ecr-login\"}" > /kaniko/.docker/config.json
+    - /kaniko/executor
+      --context "${CI_PROJECT_DIR}"
+      --dockerfile "${CI_PROJECT_DIR}/api/docker/Dockerfile"
+      --destination "${DOCKER_REGISTRY}:0.1"
+  only:
+    - branches
+  tags:
+    - docker
