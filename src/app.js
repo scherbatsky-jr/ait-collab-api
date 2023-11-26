@@ -142,8 +142,9 @@ io.sockets.on('connection', (socket) => {
 })
 
 // Start the server
-const port = process.env.APP_PORT;
+const port = process.env.PORT || 8080;
+const host = process.env.HOST || '0.0.0.0';
 
-server.listen(port, () => {
+server.listen(port, host, () => {
   console.log(`Server started on port ${port}`);
 });
